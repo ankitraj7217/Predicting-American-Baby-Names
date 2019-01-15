@@ -19,16 +19,7 @@ print(ix_to_char)
 
 
 def clip(gradients, maxValue):
-    '''
-    Clips the gradients' values between minimum and maximum.
-    
-    Arguments:
-    gradients -- a dictionary containing the gradients "dWaa", "dWax", "dWya", "db", "dby"
-    maxValue -- everything above this number is set to this number, and everything less than -maxValue is set to -maxValue
-    
-    Returns: 
-    gradients -- a dictionary with the clipped gradients.
-    '''
+ 
     
     dWaa, dWax, dWya, db, dby = gradients['dWaa'], gradients['dWax'], gradients['dWya'], gradients['db'], gradients['dby']
    
@@ -43,17 +34,7 @@ def clip(gradients, maxValue):
 
 
 def sample(parameters, char_to_ix, seed):
-    """
-    Sample a sequence of characters according to a sequence of probability distributions output of the RNN
-
-    Arguments:
-    parameters -- python dictionary containing the parameters Waa, Wax, Wya, by, and b. 
-    char_to_ix -- python dictionary mapping each character to an index.
-    seed -- used for grading purposes. Do not worry about it.
-
-    Returns:
-    indices -- a list of length n containing the indices of the sampled characters.
-    """
+   
   
     Waa, Wax, Wya, by, b = parameters['Waa'], parameters['Wax'], parameters['Wya'], parameters['by'], parameters['b']
     vocab_size = by.shape[0]
@@ -105,31 +86,7 @@ def sample(parameters, char_to_ix, seed):
 
 
 def optimize(X, Y, a_prev, parameters, learning_rate = 0.01):
-    """
-    Execute one step of the optimization to train the model.
     
-    Arguments:
-    X -- list of integers, where each integer is a number that maps to a character in the vocabulary.
-    Y -- list of integers, exactly the same as X but shifted one index to the left.
-    a_prev -- previous hidden state.
-    parameters -- python dictionary containing:
-                        Wax -- Weight matrix multiplying the input, numpy array of shape (n_a, n_x)
-                        Waa -- Weight matrix multiplying the hidden state, numpy array of shape (n_a, n_a)
-                        Wya -- Weight matrix relating the hidden-state to the output, numpy array of shape (n_y, n_a)
-                        b --  Bias, numpy array of shape (n_a, 1)
-                        by -- Bias relating the hidden-state to the output, numpy array of shape (n_y, 1)
-    learning_rate -- learning rate for the model.
-    
-    Returns:
-    loss -- value of the loss function (cross-entropy)
-    gradients -- python dictionary containing:
-                        dWax -- Gradients of input-to-hidden weights, of shape (n_a, n_x)
-                        dWaa -- Gradients of hidden-to-hidden weights, of shape (n_a, n_a)
-                        dWya -- Gradients of hidden-to-output weights, of shape (n_y, n_a)
-                        db -- Gradients of bias vector, of shape (n_a, 1)
-                        dby -- Gradients of output bias vector, of shape (n_y, 1)
-    a[len(X)-1] -- the last hidden state, of shape (n_a, 1)
-    """
     
    
     loss, cache = rnn_forward(X,Y,a_prev,parameters)
@@ -149,21 +106,7 @@ def optimize(X, Y, a_prev, parameters, learning_rate = 0.01):
 
 
 def model(data, ix_to_char, char_to_ix, num_iterations = 100000, n_a = 100, dino_names = 8, vocab_size = 28):
-    """
-    Trains the model and generates dinosaur names. 
-    
-    Arguments:
-    data -- text corpus
-    ix_to_char -- dictionary that maps the index to a character
-    char_to_ix -- dictionary that maps a character to an index
-    num_iterations -- number of iterations to train the model for
-    n_a -- number of units of the RNN cell
-    dino_names -- number of dinosaur names you want to sample at each iteration. 
-    vocab_size -- number of unique characters found in the text, size of the vocabulary
-    
-    Returns:
-    parameters -- learned parameters
-    """
+   
     n_x, n_y = vocab_size, vocab_size
     
 
@@ -197,11 +140,9 @@ def model(data, ix_to_char, char_to_ix, num_iterations = 100000, n_a = 100, dino
             
             print('Iteration: %d, Loss: %f' % (j, loss) + '\n')
             
-            # The number of dinosaur names to print
             seed = 0
             for name in range(dino_names):
                 
-                # Sample indices and print them
                 sampled_indices = sample(parameters, char_to_ix, seed)
                 print_sample(sampled_indices, ix_to_char)
                 
@@ -216,17 +157,7 @@ parameters = model(data, ix_to_char, char_to_ix)
 
 
 def sample_with_char(parameters, char_to_ix, ind):
-    """
-    Sample a sequence of characters according to a sequence of probability distributions output of the RNN
-
-    Arguments:
-    parameters -- python dictionary containing the parameters Waa, Wax, Wya, by, and b. 
-    char_to_ix -- python dictionary mapping each character to an index.
-    seed -- used for grading purposes. Do not worry about it.
-
-    Returns:
-    indices -- a list of length n containing the indices of the sampled characters.
-    """
+   
   
     Waa, Wax, Wya, by, b = parameters['Waa'], parameters['Wax'], parameters['Wya'], parameters['by'], parameters['b']
     vocab_size = by.shape[0]
